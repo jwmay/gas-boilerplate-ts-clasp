@@ -1,0 +1,58 @@
+<script>
+
+function openFolderPicker() {
+  google.script.run
+      .withSuccessHandler(showPicker)
+      .withFailureHandler()
+      .initFolderPicker();
+}
+
+function showPicker(config) {
+
+  // Show all files / folders in Google Drive for selection
+  let driveView = new google.picker.DocsView()
+      .setIncludeFolders(config.picker.includeFolders)
+      .setSelectFolderEnabled(config.picker.allowFolderSelect)
+      .setParent(config.parentFolder);
+
+  // Show all files / folders in Shared Drives for selection
+  // DISABLED: getting error `.setEnableDrives() is not a function`
+  // let sharedDriveView = new google.picker.DocsView()
+  //     .setEnableDrives(config.picker.enableDrives)
+  //     .setIncludeFolders(config.picker.includeFolders)
+  //     .setSelectFolderEnabled(config.picker.allowFolderSelect);
+  
+  let picker = new google.picker.PickerBuilder()
+      .addView(driveView)
+      .setLocale(config.locale)
+      .setOAuthToken(config.token)
+      .setDeveloperKey(config.developerKey)
+      .setCallback(window[config.picker.callback])
+      .setOrigin(google.script.host.origin)
+      .setSize(config.dialogDimensions.width - 2,
+              config.dialogDimensions.height - 2);
+
+  // DISABLED: see message above about error with enabling shared drives
+  // if (config.picker.enableDrives)
+  //   picker.enableFeature(google.picker.Feature.SUPPORT_DRIVES)
+  //       .addView(sharedDriveView);
+  
+  if (config.picker.selectableMimeTypes)
+    picker.setSelectableMimeTypes(config.picker.selectableMimeTypes);
+
+  if (config.picker.hideTitle) 
+    picker.hideTitleBar();
+
+  if (config.picker.mineOnly)
+    picker.enableFeature(google.picker.Feature.MINE_ONLY);
+  
+  if (config.picker.navhidden)
+    picker.enableFeature(google.picker.Feature.NAV_HIDDEN);
+  
+  if (config.picker.multiselectEnabled)
+    picker.enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+  
+  picker.build().setVisible(true); 
+}
+
+</script>

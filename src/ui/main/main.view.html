@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= include('src/ui/lib/font-awesome.js'); ?>
+    <?!= include('src/ui/lib/google.styles.css'); ?>
+    <?!= include('src/ui/lib/display/display.styles.css'); ?>
+    <?!= include('src/ui/lib/accordion/accordion.styles.css'); ?>
+    <?!= include('src/ui/lib/templater.styles.css'); ?>
+  </head>
+
+  <body>
+    <div class="dialog">
+      <div id="loading" class="loading">
+        <i class="fad fa-circle-notch fa-spin fa-2x fa-fw"></i>
+        <span id="loading-message">Loading...</span>
+      </div>
+      <div id="loading-overlay" class="loading-overlay"></div>
+      <div id="alert"></div>
+      <div id="content"></div>
+    </div>
+
+    <?!= include('src/ui/lib/jquery.client.js'); ?>
+    <?!= include('src/ui/lib/display/display.client.js'); ?>
+    <?!= include('src/ui/lib/accordion/accordion.client.js'); ?>
+    <?!= include('src/ui/main/main.controller.client.js'); ?>
+  </body>
+</html>

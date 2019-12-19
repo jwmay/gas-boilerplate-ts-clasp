@@ -1,0 +1,35 @@
+<script>
+
+$(function() {
+  loadDisplay();
+
+  // Setup the accordion for template files when display is loaded
+  $(document).on('e.updated', function() {
+    Accordion.init();
+    
+    // Handle template file click
+    $('.accordion li[data-id]').click(function() {
+      createFileFromTemplate($(this).data('id'));
+    });
+  });
+});
+
+
+function loadDisplay() {
+  google.script.run
+      .withSuccessHandler(updateDisplay)
+      .getMainDisplay();
+}
+
+
+function createFileFromTemplate(fileId) {
+  showLoading('Creating new file...');
+  google.script.run
+      .withSuccessHandler(function(object) {
+        updateDisplay(object.display);
+        window.open(object.fileUrl, '_blank');
+      })
+      .createFileFromTemplate(fileId);
+}
+
+</script>

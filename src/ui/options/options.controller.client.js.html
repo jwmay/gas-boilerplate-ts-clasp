@@ -1,0 +1,80 @@
+<script>
+
+$(function() {
+  loadDisplay();
+
+  // Setup the action list for template folders when display is loaded
+  $(document).on('e.updated', function() {
+    ActionList.init({
+      emptyMessage: 'No folder selected'
+    });
+  });
+});
+
+
+/**
+ * Runs dialog initialization functions to retrieve and display the primary
+ * user interface components for the dialog.
+ */
+function loadDisplay() {
+  google.script.run
+      .withSuccessHandler(updateDisplay)
+      .getOptionsDisplay();
+}
+
+
+/**
+ * Handles the 'Save options' button click response.
+ */
+function saveOptions() {
+  showLoading('Saving...');
+
+  let folders = [];
+  let folderIds = ActionList.getValues('id');
+  folderIds.forEach(function(id) {
+    if (id) {
+      let link = $('[data-id="' + id + '"]').children('a');
+      folders.push({
+        id: id,
+        name: link.html(),
+        url: link.attr('href')
+      });
+    }
+  });
+
+  let options = {
+    templateFolders: folders,
+    trashSourceFile: ($('#trashSourceFile').prop('checked') ? true : false),
+    createInMyDrive: ($('#createInMyDrive').prop('checked') ? true : false),
+  };
+  
+  clearDisplay();
+  
+  google.script.run
+      .withSuccessHandler(function() {
+        google.script.host.close();
+      })
+      .saveOptions(options);
+}
+
+
+function cancelOptions() {
+  google.script.host.close();
+}
+
+
+function folderSelected(data) {
+  const selectedFolders = ActionList.getValues('id');
+  let action = data[google.picker.Response.ACTION];
+  if (action == google.picker.Action.PICKED) {
+    const docs = data[google.picker.Response.DOCUMENTS];
+    docs.forEach(function(folder) {
+      if (!selectedFolders.includes(folder.id))
+        ActionList.addItem(
+          '<li data-id="' + folder.id + '"><a href="' + folder.url + '" target="_blank">' + folder.name + '</a></li>'
+        );
+    });
+  }
+}
+
+</script>

@@ -1,0 +1,143 @@
+<script>
+
+const Display = (function() {
+  'use strict';
+
+  const _element = {
+    alert: $('#alert'),
+    content: $('#content'),
+    loading: $('#loading'),
+    loadingOverlay: $('#loading-overlay'),
+    loadingMessage: $('#loading-message')
+  };
+
+  const _defaultInput = {
+    content: '',
+    type: 'card',
+    id: '',
+    position: 'top',
+    reset: false,
+    close: false,
+    init: function() {}
+  };
+
+  function _getAlert(type, content) {
+    return '' +
+      '<div class="alert ' + type + ' border-0">' +
+        '<button type="button" class="close" aria-label="Close" ' +
+            'onclick="closeAlert(this);">' +
+          '&times;' +
+        '</button>' +
+        content +
+      '</div>';
+  }
+
+  function _getCard(content, id) {
+    id = id ? ' id="' + id + '"' : '';
+    return '' +
+      '<div class="card"' + id + '>' +
+        content +
+      '</div>';
+  }
+  
+  function _update(input) {
+    // Close the display, if option selected
+    if (input.close) google.script.host.close();
+
+    // Clear the display, if option selected
+    if (input.reset) clear(input.type);
+
+    // Update the display based on the type, default is card
+    if (input.type.startsWith('alert')) {
+      let alert = _getAlert(input.type, input.content);
+      $(alert).hide().appendTo(_element.alert).slideDown('slow');
+    }
+    else {
+      let card = _getCard(input.content, input.id);
+      if (input.position === 'top') {
+        $(card).hide().prependTo(_element.content).slideDown('slow');
+      } else {
+        $(card).hide().appendTo(_element.content).slideDown('slow');
+      }
+    }
+  }
+
+  function create(input) {
+    if (input) return {..._defaultInput, ...input};
+    return _defaultInput;
+  }
+
+  function clear(type='all') {
+    if (type === 'all' || type === 'alert') _element.alert.html('');
+    if (type === 'all' || type === 'card') _element.content.html(''); 
+  }
+
+  function update(inputs) {
+    if (Array.isArray(inputs)) {
+      inputs.forEach(function(input) {
+        _update(input);
+      });
+    }
+    else {
+      _update(inputs);
+    }
+    
+    // Hide the loading overlay if it was displayed
+    hideLoading();
+
+    // Trigger event to allow listeners/handlers to execute once display is updated
+    $(document).trigger('e.updated');
+  }
+
+  function showLoading(message='Loading...') {
+    _element.loadingMessage.html(message);
+    _element.loading.removeClass('hidden');
+    _element.loadingOverlay.removeClass('hidden');
+  }
+
+  function hideLoading() {
+    _element.loading.addClass('hidden');
+    _element.loadingOverlay.addClass('hidden');
+  }
+
+  return {
+    create: create,
+    clear: clear,
+    update: update,
+    showLoading: showLoading,
+    hideLoading: hideLoading
+  };
+})();
+
+
+function updateDisplay(inputs) {
+  Display.update(inputs);
+}
+
+
+function showLoading(message) {
+  Display.showLoading(message);
+}
+
+
+function hideLoading() {
+  Display.hideLoading();
+}
+
+
+function clearDisplay(type) {
+  Display.clear(type);
+}
+
+
+function closeAlert(element) {
+  $(element).parent().remove();
+}
+
+
+function scrollTo(id){
+  var _element = $(id);
+  $('html,body').animate({scrollTop: _element.offset().top},'slow');
+}
+
+</script>
