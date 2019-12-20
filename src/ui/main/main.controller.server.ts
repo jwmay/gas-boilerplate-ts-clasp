@@ -30,11 +30,16 @@ class MainController {
           `<h3>${folder.name}</h3>`
         );
         listItems.push('<ul>');
-        folder.files.forEach(file => {
-          listItems.push(
-            `<li data-id="${file.id}">${file.name}</li>`
-          )
-        });
+        if (folder.files.length > 0) {
+          folder.files.forEach(file => {
+            listItems.push(
+              `<li data-id="${file.id}">${file.name}</li>`
+            );
+          });
+        }
+        else {
+          listItems.push('<li>No template files found in this folder</li>');
+        }
         listItems.push('</ul>');
       });
       return '' +
