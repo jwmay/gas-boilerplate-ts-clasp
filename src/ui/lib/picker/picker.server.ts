@@ -8,8 +8,8 @@ function initFolderPicker() {
     parentFolder: DriveApp.getRootFolder().getId(),
     developerKey: config.pickerDeveloperKey,
     dialogDimensions: {
-      width: config.dialog.options.width,
-      height: config.dialog.options.height
+      width: config.dialog.settings.width,
+      height: config.dialog.settings.height
     },
     picker: {
       includeFolders: true,

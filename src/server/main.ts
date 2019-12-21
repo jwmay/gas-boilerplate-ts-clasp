@@ -4,32 +4,28 @@
 
 export function getConfiguration() {
   return {
-    // debug: true,
-    debug: false,
+    debug: true,
     
     applicationType: MimeType.GOOGLE_DOCS,
     // applicationType: MimeType.GOOGLE_SHEETS,
     // applicationType: MimeType.GOOGLE_SLIDES,
     
-    pluginName: 'Templater',
+    pluginName: 'PLUGIN_NAME',
     
     defaultOptions: {
+      // set default values of options here
       templateFolders: [],
       trashSourceFile: false,
       createInMyDrive: false
     },
 
-    dialog: {
-      options: {
+    dialog: { // set dimensions of dialogs here
+      settings: {
         height: 500,
         width: 600
       },
-      templates: {
-        height: 400,
-        width: 600
-      }
     },
 
-    pickerDeveloperKey: 'AIzaSyC_YH_-LRRE4SPCx0Pzbcsk5NrYGjs0WNw'
+    pickerDeveloperKey: 'GOOGLE_PICKER_DEVELOPER_API_KEY'
   };
 }

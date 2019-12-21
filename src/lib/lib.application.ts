@@ -1,5 +1,6 @@
 import { Configuration } from './lib.configuration';
 
+
 export class Application {
 
   public static getType() {

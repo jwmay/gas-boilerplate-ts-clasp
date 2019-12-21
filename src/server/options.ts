@@ -3,6 +3,7 @@ import { PropertyStore } from '../lib/lib.storage';
 
 
 export interface Options {
+  // set default options and types here
   templateFolders: object[];
   trashSourceFile: boolean;
   createInMyDrive: boolean;

@@ -24,8 +24,6 @@ function onOpen(e: object) {
   // available only in debug mode.
   const ui = Application.getUi()
       .createMenu(config.pluginName)
-      .addItem('New from template', 'showMainDialog')
-      .addSeparator()
       .addItem('Settings', 'showSettingsDialog');
   
   // If debug, display menu options for testing and to clear the
@@ -40,21 +38,14 @@ function onOpen(e: object) {
 }
 
 
-function showMainDialog() {
-  const config = Configuration.getCurrent();
-  UI.showDialog('src/ui/main/main.view',
-      config.dialog.templates.width,
-      config.dialog.templates.height,
-      'Select a template');
-}
-
-
 function showSettingsDialog() {
   const config = Configuration.getCurrent();
-  UI.showDialog('src/ui/options/options.view',
-      config.dialog.options.width,
-      config.dialog.options.height,
-      'Settings');
+  UI.showDialog(
+    'src/ui/options/options.view',
+    config.dialog.settings.width,
+    config.dialog.settings.height,
+    'Settings'
+  );
 }
 
 
