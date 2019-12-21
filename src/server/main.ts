@@ -30,6 +30,6 @@ export function getConfiguration() {
       }
     },
 
-    pickerDeveloperKey: 'AIzaSyCckiNWvngjCe2sa5H9IznPWqJpbTanJr0'
+    pickerDeveloperKey: 'AIzaSyC_YH_-LRRE4SPCx0Pzbcsk5NrYGjs0WNw'
   };
 }
