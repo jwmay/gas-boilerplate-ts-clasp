@@ -1,11 +1,11 @@
 import { BaseFile } from '../lib/lib.file';
 import { Configuration } from '../lib/lib.configuration';
-import { OptionsHandler } from '../server/options';
+import { Options, OptionsHandler } from '../server/options';
 
 
 export class Service {
   config: { debug: boolean; applicationType: any; pluginName: string; defaultOptions: { templateFolders: any[]; trashSourceFile: boolean; createInMyDrive: boolean; }; dialog: { options: { height: number; width: number; }; templates: { ...; }; }; pickerDeveloperKey: string; };
-  options: {};
+  options: Options;
 
   constructor() {
     this.config = Configuration.getCurrent();
@@ -22,8 +22,9 @@ export class Service {
   }
   
   getTemplateFiles(folderId: string): GoogleAppsScript.Drive.FileIterator {
-    const folder = DriveApp.getFolderById(folderId);
-    return folder.getFilesByType(this.config.applicationType);
+    return DriveApp
+        .getFolderById(folderId)
+        .getFilesByType(this.config.applicationType);
   }
   
   getAllTemplates() {
@@ -32,7 +33,7 @@ export class Service {
       let items = [];
       folders.forEach(folder => {
         let folderItem = {
-          name: folder.name,
+          name: DriveApp.getFolderById(folder.id).getName(),
           id: folder.id,
           url: folder.url,
           files: []

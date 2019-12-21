@@ -24,8 +24,10 @@ class OptionsController {
     let listItems = '';
 
     folders.forEach(function(folder: object) {
-      if (folder.id)
+      if (folder.id) {
+        folder.name = DriveApp.getFolderById(folder.id).getName();
         listItems += '<li data-id="' + folder.id + '"><a href="' + folder.url + '" target="_blank">' + folder.name + '</a></li>';
+      }
     });
 
     return '' +
