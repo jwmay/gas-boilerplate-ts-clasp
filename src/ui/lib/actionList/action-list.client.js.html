@@ -1,114 +1,116 @@
 <script>
+  class ActionList {
+    static selectors = {
+      list: 'ul.action-list',
+      items: 'ul.action-list > li',
+    }
 
-class ActionList {
-  static selectors = {
-    list: 'ul.action-list',
-    items: 'ul.action-list > li'
-  };
-  
-  constructor(options) {
-    this._default = {
-      emptyMessage: 'This list is empty',
-      removable: true,
-      sortable: true,
-    };
-    this.options = this._getOptions(options);
-  }
-  
-  static init(options) {
-    const list = new this(options);
-    return list._handleEmptyList()
-      ._addActionButtons()
-      ._handleRemoveClick()
-      ._makeSortable();
-  }
+    constructor(options) {
+      this._default = {
+        emptyMessage: 'This list is empty',
+        removable: true,
+        sortable: true,
+      }
+      this.options = this._getOptions(options)
+    }
 
-  static getValues(key) {
-    let values = [];
-    $(this.selectors.items).each(function() {
-      let value = $(this).data(key);
-      values.push(value);
-    });
-    return values;
-  }
-  
-  static addItem(content) {
-    const list = new this();
-    list._getList().append(content);
-    list._handleEmptyList()
-        ._addActionButtons();
-  }
-  
-  _getList() {
-    return $(ActionList.selectors.list);
-  }
+    static init(options) {
+      const list = new this(options)
+      return list
+        ._handleEmptyList()
+        ._addActionButtons()
+        ._handleRemoveClick()
+        ._makeSortable()
+    }
 
-  _getItems() {
-    return $(ActionList.selectors.items);
-  }
-  
-  _addActionButtons() {
-    if (this.options.removable) {
-      const closeButton = '' +
+    static getValues(key) {
+      let values = []
+      $(this.selectors.items).each(function () {
+        let value = $(this).data(key)
+        values.push(value)
+      })
+      return values
+    }
+
+    static addItem(content) {
+      const list = new this()
+      list._getList().append(content)
+      list._handleEmptyList()._addActionButtons()
+    }
+
+    _getList() {
+      return $(ActionList.selectors.list)
+    }
+
+    _getItems() {
+      return $(ActionList.selectors.items)
+    }
+
+    _addActionButtons() {
+      if (this.options.removable) {
+        const closeButton =
+          '' +
           '<div class="action-list-remove">' +
-            '<i class="fas fa-times"></i>' +
-          '</div>';
-      this._getItems().each(function() {
-        let item = $(this);
-        if (item.children('.action-list-remove').length == 0 &&
-            item.hasClass('action-list-empty') == false) {
-          item.append(closeButton);
-        }
-      });
+          '<i class="fas fa-times"></i>' +
+          '</div>'
+        this._getItems().each(function () {
+          let item = $(this)
+          if (
+            item.children('.action-list-remove').length == 0 &&
+            item.hasClass('action-list-empty') == false
+          ) {
+            item.append(closeButton)
+          }
+        })
+      }
+      return this
     }
-    return this;
-  }
 
-  _handleRemoveClick() {
-    let list = this;
-    $(document).on('click', '.action-list-remove', function() {
-      $(this).parent().remove();
-      list._handleEmptyList();
-    });
-    return this;
-  }
-  
-  _handleEmptyList() {
-    const list = this._getList();
-    if (list.children().length === 0) {
-      list.html('<li class="action-list-empty">' + this.options.emptyMessage + '</li>');
+    _handleRemoveClick() {
+      let list = this
+      $(document).on('click', '.action-list-remove', function () {
+        $(this).parent().remove()
+        list._handleEmptyList()
+      })
+      return this
     }
-    else {
-      $('ul.action-list > li.action-list-empty').remove();
-    }
-    return this;
-  }
 
-  _makeSortable() {
-    const list = this._getList();
-    if (this.options.sortable && list.sortable('instance') == undefined) {
-      list.sortable({
-        axis: 'y',
-        classes: {
-          'ui-sortable-helper': 'in-motion'
-        },
-        containment: 'parent',
-        forceHelperSize: true,
-        forcePlaceholderSize: true,
-        items: '> li:not(.action-list-empty)',
-        opacity: 0.9,
-        placeholder: 'in-motion-placeholder',
-        revert: 200,
-        tolerance: 'pointer'
-      });
+    _handleEmptyList() {
+      const list = this._getList()
+      if (list.children().length === 0) {
+        list.html(
+          '<li class="action-list-empty">' + this.options.emptyMessage + '</li>'
+        )
+      } else {
+        $('ul.action-list > li.action-list-empty').remove()
+      }
+      return this
     }
-    return this;
-  }
-  
-  _getOptions(options) {
-    if (options) return {...this._default, ...options};
-    return this._default;
-  }
-}
 
+    _makeSortable() {
+      const list = this._getList()
+      if (this.options.sortable && list.sortable('instance') == undefined) {
+        list.sortable({
+          axis: 'y',
+          classes: {
+            'ui-sortable-helper': 'in-motion',
+          },
+          containment: 'parent',
+          forceHelperSize: true,
+          forcePlaceholderSize: true,
+          items: '> li:not(.action-list-empty)',
+          opacity: 0.9,
+          placeholder: 'in-motion-placeholder',
+          revert: 200,
+          tolerance: 'pointer',
+        })
+      }
+      return this
+    }
+
+    _getOptions(options) {
+      if (options) return { ...this._default, ...options }
+      return this._default
+    }
+  }
 </script>

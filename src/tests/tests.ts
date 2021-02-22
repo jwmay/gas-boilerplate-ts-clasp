@@ -1,38 +1,36 @@
-import { Configuration } from '../lib/lib.configuration';
-import { Application } from '../lib/lib.application';
-import { OptionsHandler } from '../server/options';
-
+import { Configuration } from '../lib/lib.configuration'
+import { Application } from '../lib/lib.application'
+import { OptionsHandler } from '../server/options'
 
 function runTests() {
-  let tests = new Tests();
-  tests.run();
+  let tests = new Tests()
+  tests.run()
 }
-
 
 class Tests {
   tests = [
     function configuration() {
-      Tests.getDisplay('Configuration class', Configuration.getCurrent());
+      Tests.getDisplay('Configuration class', Configuration.getCurrent())
     },
 
     function application() {
-      Tests.getDisplay('Application class', Application.getType());
+      Tests.getDisplay('Application class', Application.getType())
     },
-    
+
     function defaultOptions() {
-      let options = new OptionsHandler();
-      Tests.getDisplay('Default options', options.defaultOptions);
+      let options = new OptionsHandler()
+      Tests.getDisplay('Default options', options.defaultOptions)
     },
 
     function options() {
-      Tests.getDisplay('Options', OptionsHandler.getOptions());
+      Tests.getDisplay('Options', OptionsHandler.getOptions())
     },
-  ];
+  ]
 
   run() {
-    this.tests.forEach(test => test());
+    this.tests.forEach((test) => test())
   }
-  
+
   static getDisplay(title: string, data: any) {
     let output = [
       '',
@@ -40,8 +38,8 @@ class Tests {
       'TEST: ' + title,
       '   ' + JSON.stringify(data),
       '~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~',
-      ''
-    ];
-    Logger.log(output.join('\n'));
+      '',
+    ]
+    Logger.log(output.join('\n'))
   }
 }

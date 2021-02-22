@@ -1,65 +1,62 @@
 <script>
-
-class Accordion {
-  static selectors = {
-    container: '.accordion',
-    header: '.accordion-header',
-    folder: {
-      closed: 'fa-folder',
-      open: 'fa-folder-open'
-    }
-  }
-  
-  constructor() {
-    this.selectors = Accordion.selectors;
-  }
-  
-  static init() {
-    const accordion = new this();
-    accordion._createAccordion()
-      ._addIcons();
-  }
-  
-  _addIcons() {
-    const $header = $(this.selectors.header);
-    if ($header.find('i.fad').length == 0) {
-      $header.prepend(
-        '<i class="fad fa-fw fa-folder"></i>'
-      );
-    }
-    this._changeFolderIcon($header.first());
-    return this;
-  }
-  
-  _createAccordion() {
-    const accordion = this;
-    $(this.selectors.container).accordion({
-      animate: 200,
-      classes: {
-        'ui-accordion-header': 'accordion-header',
-        'ui-accordion-content': 'accordion-content',
-        'ui-accordion-header-active': 'accordion-header-active'
+  class Accordion {
+    static selectors = {
+      container: '.accordion',
+      header: '.accordion-header',
+      folder: {
+        closed: 'fa-folder',
+        open: 'fa-folder-open',
       },
-      collapsible: true,
-      heightStyle: 'content',
-      icons: false,
-      beforeActivate: function(event, ui) {
-        accordion._changeFolderIcon(ui.newHeader, ui.oldHeader);
-      }
-    });
-    return this;
-  }
-
-  _changeFolderIcon(newHeader, oldHeader) {
-    if (oldHeader) {
-      oldHeader.find('i.fad')
-        .removeClass(this.selectors.folder.open)
-        .addClass(this.selectors.folder.closed);
     }
-    newHeader.find('i.fad')
-      .removeClass(this.selectors.folder.closed)
-      .addClass(this.selectors.folder.open);
-  }
-}
 
+    constructor() {
+      this.selectors = Accordion.selectors
+    }
+
+    static init() {
+      const accordion = new this()
+      accordion._createAccordion()._addIcons()
+    }
+
+    _addIcons() {
+      const $header = $(this.selectors.header)
+      if ($header.find('i.fad').length == 0) {
+        $header.prepend('<i class="fad fa-fw fa-folder"></i>')
+      }
+      this._changeFolderIcon($header.first())
+      return this
+    }
+
+    _createAccordion() {
+      const accordion = this
+      $(this.selectors.container).accordion({
+        animate: 200,
+        classes: {
+          'ui-accordion-header': 'accordion-header',
+          'ui-accordion-content': 'accordion-content',
+          'ui-accordion-header-active': 'accordion-header-active',
+        },
+        collapsible: true,
+        heightStyle: 'content',
+        icons: false,
+        beforeActivate: function (event, ui) {
+          accordion._changeFolderIcon(ui.newHeader, ui.oldHeader)
+        },
+      })
+      return this
+    }
+
+    _changeFolderIcon(newHeader, oldHeader) {
+      if (oldHeader) {
+        oldHeader
+          .find('i.fad')
+          .removeClass(this.selectors.folder.open)
+          .addClass(this.selectors.folder.closed)
+      }
+      newHeader
+        .find('i.fad')
+        .removeClass(this.selectors.folder.closed)
+        .addClass(this.selectors.folder.open)
+    }
+  }
 </script>

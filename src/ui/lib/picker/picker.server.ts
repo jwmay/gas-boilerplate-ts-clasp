@@ -1,7 +1,7 @@
-import { Configuration } from "../../../lib/lib.configuration";
+import { Configuration } from '../../../lib/lib.configuration'
 
 function initFolderPicker() {
-  const config = Configuration.getCurrent();
+  const config = Configuration.getCurrent()
   return {
     locale: 'en',
     token: ScriptApp.getOAuthToken(),
@@ -9,7 +9,7 @@ function initFolderPicker() {
     developerKey: config.pickerDeveloperKey,
     dialogDimensions: {
       width: config.dialog.settings.width,
-      height: config.dialog.settings.height
+      height: config.dialog.settings.height,
     },
     picker: {
       includeFolders: true,
@@ -21,6 +21,6 @@ function initFolderPicker() {
       hideTitle: true,
       navhidden: true,
       callback: 'folderSelected',
-    }
-  };
+    },
+  }
 }

@@ -1,54 +1,52 @@
 <style>
+  ul.action-list {
+    padding: 0;
+    list-style-type: none;
+    border: 1px solid #ccc;
+    min-height: 50px;
+    max-height: 150px;
+    overflow-x: scroll;
+  }
 
-ul.action-list {
-	padding: 0;
-	list-style-type: none;
-	border: 1px solid #ccc;
-	min-height: 50px;
-	max-height: 150px;
-	overflow-x: scroll;
-}
+  ul.action-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 50px;
+  }
 
-ul.action-list li {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 20px;
-	height: 50px;
-}
+  ul.action-list li:not(.empty) {
+    cursor: grab;
+  }
 
-ul.action-list li:not(.empty) {
-	cursor: grab;
-}
+  ul.action-list li:not(.empty):hover {
+    background-color: #eee;
+  }
 
-ul.action-list li:not(.empty):hover {
-	background-color: #eee;
-}
+  ul.action-list li .action-list-remove {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    color: #ccc;
+    cursor: pointer;
+  }
 
-ul.action-list li .action-list-remove {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-radius: 100%;
-	width: 30px;
-	height: 30px;
-	color: #ccc;
-	cursor: pointer;
-}
+  ul.action-list li .action-list-remove:hover {
+    background-color: white;
+    color: #696969;
+  }
 
-ul.action-list li .action-list-remove:hover {
-	background-color: white;
-	color: #696969;
-}
+  ul.action-list li.in-motion {
+    background-color: #e1e1e1;
+    cursor: grabbing;
+    z-index: 1000;
+  }
 
-ul.action-list li.in-motion {
-	background-color: #e1e1e1;
-	cursor: grabbing;
-	z-index: 1000;
-}
-
-ul.action-list li.in-motion-placeholder {
-	background-color: #eee;
-}
-
+  ul.action-list li.in-motion-placeholder {
+    background-color: #eee;
+  }
 </style>
